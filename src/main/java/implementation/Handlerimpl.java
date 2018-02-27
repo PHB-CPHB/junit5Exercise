@@ -11,30 +11,39 @@ public class Handlerimpl implements Handler {
     public Person getPerson(Person person) {
         ArrayList<Person> persons = getAllPersons(path);
         Person tmpPerson = null;
-        for (int i = 0; i < persons.size(); i++){
-            if(person == persons.get(i)){
-                tmpPerson = persons.get(i);
+        for (Person currentPerson: persons) {
+            if(currentPerson.toString().equals(person.toString())){
+                tmpPerson = person;
             }
         }
         return tmpPerson;
     }
 
     public void updatePerson(Person person, Person updatedPerson) {
-
+        try {
+            throw new Exception("Not done yet");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void removePerson(Person person) {
-
+        try {
+            throw new Exception("Not done yet");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void createPerson(Person person) {
         File file = new File(path);
-        BufferedWriter bw = null;
+        RandomAccessFile raf = null;
         try{
-            bw = new BufferedWriter(new FileWriter(file));
-            bw.append(person.toString());
-            bw.flush();
-            bw.close();
+            raf = new RandomAccessFile(file, "rw");
+            raf.seek(file.length());
+            raf.write(person.toString().getBytes());
+            raf.writeBytes(System.getProperty("line.separator"));
+            raf.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -78,9 +87,5 @@ public class Handlerimpl implements Handler {
 
     public ArrayList<Person> sortByName() {
         return null;
-    }
-
-    private void writeToFile(File file, Person person) {
-
     }
 }
