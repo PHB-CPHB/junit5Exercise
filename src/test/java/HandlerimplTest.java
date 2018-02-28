@@ -34,8 +34,8 @@ public class HandlerimplTest {
 */
 
     @Test
-    public Person testGetPerson() {
-        return null;
+    public void testGetPerson() {
+
     };
 
     @Test
@@ -64,20 +64,22 @@ public class HandlerimplTest {
         h.updatePerson(initailPerson, updatedPerson);
         assertEquals(updatedPerson, h.getPerson(updatedPerson));
         assertTrue(!h.getAllPersons(path).contains(initailPerson));
+        h.removePerson(updatedPerson);
     };
 
     @Test
     public void testRemovePerson() {
         Person person = new Person(
-                "Florent",
-                "Haxha",
-                23,
+                "Test",
+                "Testing",
+                26,
                 "818181818",
                 "fuck street",
                 "fuck din mor",
                 "hejsa",
                 10234
         );
+        h.createPerson(person);
         h.removePerson(person);
         assertTrue(h.getAllPersons(path).size()>0);
         assertTrue(!h.getAllPersons(path).contains(person));
@@ -108,7 +110,7 @@ public class HandlerimplTest {
 
     @Test
     public void testGetAllPersons() {
-        
+
     };
 
     @Test
