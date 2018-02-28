@@ -17,9 +17,9 @@ public interface Handler {
 
     public ArrayList<Person> getAllPersons(String path);
 
-    public ArrayList<Person> sortByAge();
+    public ArrayList<Person> sortByAge(ArrayList<Person> arr);
 
-    public ArrayList<Person> sortByAmount();
+    public ArrayList<Person> sortByAmount(ArrayList<Person> arr);
 
-    public ArrayList<Person> sortByFirstName();
+    public ArrayList<Person> sortByFirstName(ArrayList<Person> arr);
 }

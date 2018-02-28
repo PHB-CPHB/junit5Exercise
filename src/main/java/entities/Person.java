@@ -106,4 +106,34 @@ public class Person implements Comparable<Person> {
             return 0;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Person person = (Person) o;
+
+        if (age != person.age) return false;
+        if (amount != person.amount) return false;
+        if (first != null ? !first.equals(person.first) : person.first != null) return false;
+        if (last != null ? !last.equals(person.last) : person.last != null) return false;
+        if (phone != null ? !phone.equals(person.phone) : person.phone != null) return false;
+        if (street != null ? !street.equals(person.street) : person.street != null) return false;
+        if (city != null ? !city.equals(person.city) : person.city != null) return false;
+        return word != null ? word.equals(person.word) : person.word == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = first != null ? first.hashCode() : 0;
+        result = 31 * result + (last != null ? last.hashCode() : 0);
+        result = 31 * result + age;
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (word != null ? word.hashCode() : 0);
+        result = 31 * result + amount;
+        return result;
+    }
 }

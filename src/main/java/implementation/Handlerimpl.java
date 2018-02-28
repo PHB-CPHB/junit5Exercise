@@ -171,31 +171,25 @@ public class Handlerimpl implements Handler {
         }
     }
 
-    public ArrayList<Person> sortByAge() {
-        ArrayList<Person> arr = persons;
+    public ArrayList<Person> sortByAge(ArrayList<Person> arr) {
 
         arr.sort(Comparator.comparing(Person::getAge));
 
         return arr;
     }
 
-    public ArrayList<Person> sortByAmount() {
-        ArrayList<Person> arr = persons;
+    public ArrayList<Person> sortByAmount(ArrayList<Person> arr) {
 
         arr.sort(Comparator.comparing(Person::getAmount));
 
         return arr;
     }
 
-    public ArrayList<Person> sortByFirstName() {
-        ArrayList<Person> arr = persons;
+    public ArrayList<Person> sortByFirstName(ArrayList<Person> arr) {
 
         arr.sort(Comparator.comparing(Person::getFirst));
 
         return arr;
     }
 
-    private boolean isSorted(){
-        return false;
-    }
 }
