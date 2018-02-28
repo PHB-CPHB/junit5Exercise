@@ -2,10 +2,9 @@ import entities.Person;
 import implementation.Handlerimpl;
 import org.junit.jupiter.api.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class HandlerimplTest {
@@ -103,13 +102,13 @@ public class HandlerimplTest {
     };
 
     @Test
-    public ArrayList<Person> testGetByAttribute() {
-        return null;
+    public void testGetByAttribute() {
+
     };
 
     @Test
-    public ArrayList<Person> testGetAllPersons() {
-        return null;
+    public void testGetAllPersons() {
+        
     };
 
     @Test
@@ -118,17 +117,19 @@ public class HandlerimplTest {
     };
 
     @Test
-    public ArrayList<Person> testSortByAmount() {
-        return null;
+    public void testSortByAmount() {
+
     };
 
     @Test
-    public ArrayList<Person> testSortByFirstName() {
-        return null;
+    public void testSortByFirstName() {
+
     };
 
     @Test
     public String testReadFile() {
         return null;
     };
+
+
 }
