@@ -11,13 +11,14 @@ public class Handlerimpl implements Handler {
     private ArrayList<Person> persons;
     private String path;
 
-    public Handlerimpl(){
-        persons = getAllPersons(System.getProperty("user.dir")+"/src/main/resources/dataset/datasetjunit5ex.csv");
-        path = System.getProperty("user.dir")+"/src/main/resources/dataset/datasetjunit5ex.csv";
+    public Handlerimpl(String path){
+        this.path = path;
+        persons = getAllPersons();
     }
 
     public Person getPerson(Person person) {
         Person tmpPerson = null;
+        persons = getAllPersons();
         for (Person currentPerson: persons) {
             if(currentPerson.toString().equals(person.toString())){
                 tmpPerson = person;
@@ -80,6 +81,8 @@ public class Handlerimpl implements Handler {
     }
 
     public void removePerson(Person person) {
+        BufferedReader br = null;
+        PrintWriter pw = null;
         try {
 
             File inFile = new File(path);
@@ -92,8 +95,8 @@ public class Handlerimpl implements Handler {
             //Construct the new file that will later be renamed to the original filename.
             File tempFile = new File(inFile.getAbsolutePath() + ".tmp");
 
-            BufferedReader br = new BufferedReader(new FileReader(path));
-            PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+            br = new BufferedReader(new FileReader(path));
+            pw = new PrintWriter(new FileWriter(tempFile));
 
             String line = null;
 
@@ -146,10 +149,70 @@ public class Handlerimpl implements Handler {
     }
 
     public ArrayList<Person> getByAttribute(String attribute, String value) {
-        return null;
+        ArrayList<Person> attributeList = new ArrayList<>();
+        switch (attribute){
+            case "first":
+                for (Person person: persons) {
+                    if(person.getFirst() == value){
+                        attributeList.add(person);
+                    }
+                }
+                break;
+            case "last":
+                for (Person person: persons) {
+                    if(person.getLast() == value){
+                        attributeList.add(person);
+                    }
+                }
+                break;
+            case "age":
+                for (Person person: persons) {
+                    if(person.getAge() == Integer.parseInt(value)){
+                        attributeList.add(person);
+                    }
+                }
+                break;
+            case "phone":
+                for (Person person: persons) {
+                    if(person.getPhone() == value){
+                        attributeList.add(person);
+                    }
+                }
+                break;
+            case "street":
+                for (Person person: persons) {
+                    if(person.getStreet() == value){
+                        attributeList.add(person);
+                    }
+                }
+                break;
+            case "city":
+                for (Person person: persons) {
+                    if(person.getCity() == value){
+                        attributeList.add(person);
+                    }
+                }
+                break;
+            case "word":
+                for (Person person: persons) {
+                    if(person.getWord() == value){
+                        attributeList.add(person);
+                    }
+                }
+                break;
+            case "amount":
+                for (Person person: persons) {
+                    if(person.getAmount() == Integer.parseInt(value)){
+                        attributeList.add(person);
+                    }
+                }
+                break;
+        }
+        return attributeList;
+
     }
 
-    public ArrayList<Person> getAllPersons(String path) {
+    public ArrayList<Person> getAllPersons() {
         File file = new File(path);
         FileInputStream fis = null;
         ArrayList<Person> persons = new ArrayList();
@@ -163,7 +226,6 @@ public class Handlerimpl implements Handler {
                 persons.add(person);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }finally {

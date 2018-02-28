@@ -15,7 +15,7 @@ public interface Handler {
 
     public ArrayList<Person> getByAttribute(String attribute, String value);
 
-    public ArrayList<Person> getAllPersons(String path);
+    public ArrayList<Person> getAllPersons();
 
     public ArrayList<Person> sortByAge(ArrayList<Person> arr);
 

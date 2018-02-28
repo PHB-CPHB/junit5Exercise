@@ -8,50 +8,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class HandlerimplTest {
     Handlerimpl h;
-    String path;
-    ArrayList<Person> sortedList;
+    String path = System.getProperty("user.dir")+"/src/test/resources/datasetjunit5test.csv";
     ArrayList<Person> unsortedList;
 
     @BeforeEach
     public void setUp(){
-        h = new Handlerimpl();
-        path = System.getProperty("user.dir")+"/src/main/resources/dataset/datasetjunit5ex.csv";
-        sortedList = new ArrayList<>();
-        Person p1 = new Person("person1", "person2", 10 , "5819348192", "soajda", "aworjo", "hejsas", 1023);
-        Person p2 = new Person("person2", "person3", 11 , "5819348192", "soajda", "aworjo", "hejsas", 1033);
-        Person p3 = new Person("person3", "person4", 12 , "5819348192", "soajda", "aworjo", "hejsas", 1043);
-        Person p4 = new Person("person4", "person5", 13 , "5819348192", "soajda", "aworjo", "hejsas", 1053);
-        sortedList.add(p1);
-        sortedList.add(p2);
-        sortedList.add(p3);
-        sortedList.add(p4);
+        h = new Handlerimpl(path);
 
         unsortedList = new ArrayList<>();
-        Person pp1 = new Person("person4", "person5", 13 , "5819348192", "soajda", "aworjo", "hejsas", 1053);
-        Person pp2 = new Person("person3", "person4", 12 , "5819348192", "soajda", "aworjo", "hejsas", 1043);
-        Person pp3 = new Person("person1", "person2", 10 , "5819348192", "soajda", "aworjo", "hejsas", 1023);
-        Person pp4 = new Person("person2", "person3", 11 , "5819348192", "soajda", "aworjo", "hejsas", 1033);
+        Person pp1 = new Person("Cirkeline", "Madsen", 60 , "28282828", "Glostrupvej", "Glostrup", "Looser", 30000);
+        Person pp2 = new Person("Torben", "Hansen", 89 , "30303030", "Ballerupvej", "Ballerup", "Cool", 40000);
+        Person pp3 = new Person("Bertil", "Olsen", 33 , "25252525", "Dragørvej", "Dragør", "Taber", 20000);
+        Person pp4 = new Person("Albert", "Madsen", 10 , "23232323", "Københavnvej", "København", "Noob", 10000);
         unsortedList.add(pp1);
         unsortedList.add(pp2);
         unsortedList.add(pp3);
         unsortedList.add(pp4);
-    };
-/*
-    @BeforeAll
-    public void initializeResources(){
-        File dir = new File (System.getProperty("user.dir") + "/src/main/resources/dataset/");
-        File file = new File(System.getProperty("user.dir")+"/src/main/resources/dataset/datasetjunit5ex.csv");
-        try {
-             File.createTempFile("temp",".csv", dir);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @AfterAll
-    public void tearDown(){
-    }
-*/
+    };
 
     @Test
     public void testGetPerson() {
@@ -60,31 +34,12 @@ public class HandlerimplTest {
 
     @Test
     public void testUpdatePerson() {
-        Person initailPerson = new Person(
-                "Florent",
-                "Haxha",
-                23,
-                "818181818",
-                "fuck street",
-                "fuck din mor",
-                "hejsa",
-                10234
-        );
-        Person updatedPerson = new Person(
-                "Mikkel",
-                "Vetter",
-                50,
-                "818181818",
-                "fuck street",
-                "fuck din mor",
-                "hejsa",
-                10234
-        );
+        Person initailPerson = unsortedList.get(0);
+        Person updatedPerson = unsortedList.get(1);
         h.createPerson(initailPerson);
         h.updatePerson(initailPerson, updatedPerson);
         assertEquals(updatedPerson, h.getPerson(updatedPerson));
-        assertTrue(!h.getAllPersons(path).contains(initailPerson));
-        h.removePerson(updatedPerson);
+        assertTrue(!h.getAllPersons().contains(initailPerson));
     };
 
     @Test
@@ -101,8 +56,8 @@ public class HandlerimplTest {
         );
         h.createPerson(person);
         h.removePerson(person);
-        assertTrue(h.getAllPersons(path).size()>0);
-        assertTrue(!h.getAllPersons(path).contains(person));
+        assertTrue(h.getAllPersons().size()>0);
+        assertTrue(!h.getAllPersons().contains(person));
 
     };
 
@@ -135,28 +90,58 @@ public class HandlerimplTest {
 
     @Test
     public void testSortByAge() {
+
+        ArrayList<Person> sortedAgeList = new ArrayList<>();
+        Person p1 = new Person("Albert", "Madsen", 10 , "23232323", "Københavnvej", "København", "Noob", 10000);
+        Person p2 = new Person("Bertil", "Olsen", 33 , "25252525", "Dragørvej", "Dragør", "Taber", 20000);
+        Person p3 = new Person("Cirkeline", "Madsen", 60 , "28282828", "Glostrupvej", "Glostrup", "Looser", 30000);
+        Person p4 = new Person("Torben", "Hansen", 89 , "30303030", "Ballerupvej", "Ballerup", "Cool", 40000);
+        sortedAgeList.add(p1);
+        sortedAgeList.add(p2);
+        sortedAgeList.add(p3);
+        sortedAgeList.add(p4);
+
         ArrayList<Person> sortedTestList = h.sortByAge(unsortedList);
 
-        assertArrayEquals(sortedList.toArray(), sortedTestList.toArray());
-        assertEquals(sortedList.size(), sortedTestList.size());
+        assertArrayEquals(sortedAgeList.toArray(), sortedTestList.toArray());
+        assertEquals(sortedAgeList.size(), sortedTestList.size());
 
     };
 
     @Test
     public void testSortByAmount() {
+        ArrayList<Person> sortedAmountList = new ArrayList<>();
+        Person p1 = new Person("Albert", "Madsen", 10 , "23232323", "Københavnvej", "København", "Noob", 10000);
+        Person p2 = new Person("Bertil", "Olsen", 33 , "25252525", "Dragørvej", "Dragør", "Taber", 20000);
+        Person p3 = new Person("Cirkeline", "Madsen", 60 , "28282828", "Glostrupvej", "Glostrup", "Looser", 30000);
+        Person p4 = new Person("Torben", "Hansen", 89 , "30303030", "Ballerupvej", "Ballerup", "Cool", 40000);
+        sortedAmountList.add(p1);
+        sortedAmountList.add(p2);
+        sortedAmountList.add(p3);
+        sortedAmountList.add(p4);
 
         ArrayList<Person> sortedTestList = h.sortByAmount(unsortedList);
 
-        assertArrayEquals(sortedList.toArray(), sortedTestList.toArray());
-        assertEquals(sortedList.size(), sortedTestList.size());
+        assertArrayEquals(sortedAmountList.toArray(), sortedTestList.toArray());
+        assertEquals(sortedAmountList.size(), sortedTestList.size());
     }
 
     @Test
     public void testSortByFirstName() {
+        ArrayList<Person> sortedFirstList = new ArrayList<>();
+        Person p1 = new Person("Albert", "Madsen", 10 , "23232323", "Københavnvej", "København", "Noob", 10000);
+        Person p2 = new Person("Bertil", "Olsen", 33 , "25252525", "Dragørvej", "Dragør", "Taber", 20000);
+        Person p3 = new Person("Cirkeline", "Madsen", 60 , "28282828", "Glostrupvej", "Glostrup", "Looser", 30000);
+        Person p4 = new Person("Torben", "Hansen", 89 , "30303030", "Ballerupvej", "Ballerup", "Cool", 40000);
+        sortedFirstList.add(p1);
+        sortedFirstList.add(p2);
+        sortedFirstList.add(p3);
+        sortedFirstList.add(p4);
+
         ArrayList<Person> sortedTestList = h.sortByFirstName(unsortedList);
 
-        assertArrayEquals(sortedList.toArray(), sortedTestList.toArray());
-        assertEquals(sortedList.size(), sortedTestList.size());
+        assertArrayEquals(sortedFirstList.toArray(), sortedTestList.toArray());
+        assertEquals(sortedFirstList.size(), sortedTestList.size());
 
     };
 
