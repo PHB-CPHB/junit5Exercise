@@ -5,17 +5,38 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
 
 
 public class HandlerimplTest {
     Handlerimpl h;
     String path;
+    ArrayList<Person> sortedList;
+    ArrayList<Person> unsortedList;
 
     @BeforeEach
     public void setUp(){
         h = new Handlerimpl();
         path = System.getProperty("user.dir")+"/src/main/resources/dataset/datasetjunit5ex.csv";
+        sortedList = new ArrayList<>();
+        Person p1 = new Person("person1", "person2", 10 , "5819348192", "soajda", "aworjo", "hejsas", 1023);
+        Person p2 = new Person("person2", "person3", 11 , "5819348192", "soajda", "aworjo", "hejsas", 1033);
+        Person p3 = new Person("person3", "person4", 12 , "5819348192", "soajda", "aworjo", "hejsas", 1043);
+        Person p4 = new Person("person4", "person5", 13 , "5819348192", "soajda", "aworjo", "hejsas", 1053);
+        sortedList.add(p1);
+        sortedList.add(p2);
+        sortedList.add(p3);
+        sortedList.add(p4);
+
+        unsortedList = new ArrayList<>();
+        Person pp1 = new Person("person4", "person5", 13 , "5819348192", "soajda", "aworjo", "hejsas", 1053);
+        Person pp2 = new Person("person3", "person4", 12 , "5819348192", "soajda", "aworjo", "hejsas", 1043);
+        Person pp3 = new Person("person1", "person2", 10 , "5819348192", "soajda", "aworjo", "hejsas", 1023);
+        Person pp4 = new Person("person2", "person3", 11 , "5819348192", "soajda", "aworjo", "hejsas", 1033);
+        unsortedList.add(pp1);
+        unsortedList.add(pp2);
+        unsortedList.add(pp3);
+        unsortedList.add(pp4);
     };
 /*
     @BeforeAll
@@ -114,17 +135,27 @@ public class HandlerimplTest {
 
     @Test
     public void testSortByAge() {
-        h.sortByAge();
+        ArrayList<Person> sortedTestList = h.sortByAge(unsortedList);
+
+        assertArrayEquals(sortedList.toArray(), sortedTestList.toArray());
+        assertEquals(sortedList.size(), sortedTestList.size());
+
     };
 
     @Test
-    public ArrayList<Person> testSortByAmount() {
-        return null;
-    };
+    public void testSortByAmount() {
+        ArrayList<Person> sortedTestList = h.sortByAmount(unsortedList);
+
+        assertArrayEquals(sortedList.toArray(), sortedTestList.toArray());
+        assertEquals(sortedList.size(), sortedTestList.size());
+    }
 
     @Test
-    public ArrayList<Person> testSortByFirstName() {
-        return null;
+    public void testSortByFirstName() {
+        ArrayList<Person> sortedTestList = h.sortByFirstName(unsortedList);
+
+        assertArrayEquals(sortedList.toArray(), sortedTestList.toArray());
+        assertEquals(sortedList.size(), sortedTestList.size());
     };
 
     @Test
