@@ -3,13 +3,22 @@ package implementation;
 import entities.Person;
 import interfaces.Handler;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class Handlerimpl implements Handler {
-    String path = System.getProperty("user.dir")+"/src/main/resources/dataset/datasetjunit5ex.csv";
+
+    private ArrayList<Person> persons;
+    private String path;
+
+    public Handlerimpl(){
+        persons = getAllPersons(System.getProperty("user.dir")+"/src/main/resources/dataset/datasetjunit5ex.csv");
+        path = System.getProperty("user.dir")+"/src/main/resources/dataset/datasetjunit5ex.csv";
+    }
 
     public Person getPerson(Person person) {
-        ArrayList<Person> persons = getAllPersons(path);
         Person tmpPerson = null;
         for (Person currentPerson: persons) {
             if(currentPerson.toString().equals(person.toString())){
@@ -78,7 +87,7 @@ public class Handlerimpl implements Handler {
     }
 
     public ArrayList<Person> sortByAge() {
-        return null;
+        
     }
 
     public ArrayList<Person> sortByAmount() {
