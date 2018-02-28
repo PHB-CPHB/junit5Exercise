@@ -21,5 +21,5 @@ public interface Handler {
 
     public ArrayList<Person> sortByAmount();
 
-    public ArrayList<Person> sortByName();
+    public ArrayList<Person> sortByFirstName();
 }

@@ -113,8 +113,8 @@ public class HandlerimplTest {
     };
 
     @Test
-    public ArrayList<Person> testSortByAge() {
-        return null;
+    public void testSortByAge() {
+        h.sortByAge();
     };
 
     @Test
@@ -123,7 +123,7 @@ public class HandlerimplTest {
     };
 
     @Test
-    public ArrayList<Person> testSortByName() {
+    public ArrayList<Person> testSortByFirstName() {
         return null;
     };
 

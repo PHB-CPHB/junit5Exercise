@@ -6,6 +6,7 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 
 public class Handlerimpl implements Handler {
@@ -87,14 +88,30 @@ public class Handlerimpl implements Handler {
     }
 
     public ArrayList<Person> sortByAge() {
-      return null;  
+        ArrayList<Person> arr = persons;
+
+        arr.sort(Comparator.comparing(Person::getAge));
+
+        return arr;
     }
 
     public ArrayList<Person> sortByAmount() {
-        return null;
+        ArrayList<Person> arr = persons;
+
+        arr.sort(Comparator.comparing(Person::getAmount));
+
+        return arr;
     }
 
-    public ArrayList<Person> sortByName() {
-        return null;
+    public ArrayList<Person> sortByFirstName() {
+        ArrayList<Person> arr = persons;
+
+        arr.sort(Comparator.comparing(Person::getFirst));
+
+        return arr;
+    }
+
+    private boolean isSorted(){
+        return false;
     }
 }
