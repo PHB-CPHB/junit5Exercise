@@ -2,19 +2,19 @@ import entities.Person;
 import implementation.Handlerimpl;
 import org.junit.jupiter.api.*;
 
+import java.io.*;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class HandlerimplTest {
     Handlerimpl h;
     String path = System.getProperty("user.dir")+"/src/test/resources/datasetjunit5test.csv";
     ArrayList<Person> unsortedList;
+    Object[] lines;
 
-    @BeforeEach
-    public void setUp(){
-        h = new Handlerimpl(path);
-
+    @BeforeAll
+    public void setUpData(){
         unsortedList = new ArrayList<>();
         Person pp1 = new Person("Cirkeline", "Madsen", 60 , "28282828", "Glostrupvej", "Glostrup", "Looser", 30000);
         Person pp2 = new Person("Torben", "Hansen", 89 , "30303030", "Ballerupvej", "Ballerup", "Cool", 40000);
@@ -25,17 +25,48 @@ public class HandlerimplTest {
         unsortedList.add(pp3);
         unsortedList.add(pp4);
 
+        //Read everyting from file saving to array
+
+        BufferedReader br;
+        lines = null;
+        try{
+            br = new BufferedReader(new FileReader(path));
+            lines = br.lines().toArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @BeforeEach
+    public void setUp(){
+        h = new Handlerimpl(path);
     };
+
+    @AfterEach
+    public void tearDown(){
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new FileWriter(path));
+            for (Object line : lines) {
+                pw.println((String) line);
+                pw.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            pw.close();
+        }
+    }
 
     @Test
     public void testGetPerson() {
-
+        assertEquals(h.getPerson(unsortedList.get(0)), unsortedList.get(0));
     };
 
     @Test
     public void testUpdatePerson() {
-        Person initailPerson = unsortedList.get(0);
-        Person updatedPerson = unsortedList.get(1);
+        Person initailPerson = new Person("Test", "testing", 50 , "70070070", "Glostrupvej", "Glostrup", "Looser", 80000);
+        Person updatedPerson = new Person("Mike", "Timsen", 40 , "60606060", "Glostrupvej", "Glostrup", "Looser", 30000);
         h.createPerson(initailPerson);
         h.updatePerson(initailPerson, updatedPerson);
         assertEquals(updatedPerson, h.getPerson(updatedPerson));
@@ -85,7 +116,11 @@ public class HandlerimplTest {
 
     @Test
     public void testGetAllPersons() {
-
+        ArrayList<Person> data = h.getAllPersons();
+        assertEquals(unsortedList.get(0), data.get(0));
+        assertEquals(unsortedList.get(1), data.get(1));
+        assertEquals(unsortedList.get(2), data.get(2));
+        assertEquals(unsortedList.get(3), data.get(3));
     };
 
     @Test
