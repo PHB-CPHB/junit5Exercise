@@ -153,14 +153,14 @@ public class Handlerimpl implements Handler {
         switch (attribute){
             case "first":
                 for (Person person: persons) {
-                    if(person.getFirst() == value){
+                    if(person.getFirst().equals(value)){
                         attributeList.add(person);
                     }
                 }
                 break;
             case "last":
                 for (Person person: persons) {
-                    if(person.getLast() == value){
+                    if(person.getLast().equals(value)){
                         attributeList.add(person);
                     }
                 }
@@ -174,28 +174,28 @@ public class Handlerimpl implements Handler {
                 break;
             case "phone":
                 for (Person person: persons) {
-                    if(person.getPhone() == value){
+                    if(person.getPhone().equals(value)){
                         attributeList.add(person);
                     }
                 }
                 break;
             case "street":
                 for (Person person: persons) {
-                    if(person.getStreet() == value){
+                    if(person.getStreet().equals(value)){
                         attributeList.add(person);
                     }
                 }
                 break;
             case "city":
                 for (Person person: persons) {
-                    if(person.getCity() == value){
+                    if(person.getCity().equals(value)){
                         attributeList.add(person);
                     }
                 }
                 break;
             case "word":
                 for (Person person: persons) {
-                    if(person.getWord() == value){
+                    if(person.getWord().equals(value)){
                         attributeList.add(person);
                     }
                 }

@@ -15,16 +15,6 @@ public class HandlerimplTest {
 
     @BeforeAll
     public void setUpData(){
-        unsortedList = new ArrayList<>();
-        Person pp1 = new Person("Cirkeline", "Madsen", 60 , "28282828", "Glostrupvej", "Glostrup", "Looser", 30000);
-        Person pp2 = new Person("Torben", "Hansen", 89 , "30303030", "Ballerupvej", "Ballerup", "Cool", 40000);
-        Person pp3 = new Person("Bertil", "Olsen", 33 , "25252525", "Dragørvej", "Dragør", "Taber", 20000);
-        Person pp4 = new Person("Albert", "Madsen", 10 , "23232323", "Københavnvej", "København", "Noob", 10000);
-        unsortedList.add(pp1);
-        unsortedList.add(pp2);
-        unsortedList.add(pp3);
-        unsortedList.add(pp4);
-
         //Read everyting from file saving to array
 
         BufferedReader br;
@@ -40,6 +30,15 @@ public class HandlerimplTest {
     @BeforeEach
     public void setUp(){
         h = new Handlerimpl(path);
+        unsortedList = new ArrayList<>();
+        Person pp1 = new Person("Cirkeline", "Madsen", 60 , "28282828", "Glostrupvej", "Glostrup", "Looser", 30000);
+        Person pp2 = new Person("Torben", "Hansen", 89 , "30303030", "Ballerupvej", "Ballerup", "Cool", 40000);
+        Person pp3 = new Person("Bertil", "Olsen", 33 , "25252525", "Dragørvej", "Dragør", "Taber", 20000);
+        Person pp4 = new Person("Albert", "Madsen", 10 , "23232323", "Københavnvej", "København", "Noob", 10000);
+        unsortedList.add(pp1);
+        unsortedList.add(pp2);
+        unsortedList.add(pp3);
+        unsortedList.add(pp4);
     };
 
     @AfterEach
@@ -110,9 +109,60 @@ public class HandlerimplTest {
     };
 
     @Test
-    public void testGetByAttribute() {
-
+    public void testGetByFirst() {
+        ArrayList<Person> firstList = h.getByAttribute("first", "Cirkeline");
+        assertEquals(firstList.get(0).toString(), unsortedList.get(0).toString());
+        assertTrue(firstList.size() == 1);
     };
+
+    @Test
+    public void testGetByLast() {
+        ArrayList<Person> lastList = h.getByAttribute("last", "Madsen");
+        assertEquals(lastList.get(0), unsortedList.get(0));
+        assertEquals(lastList.get(1), unsortedList.get(3));
+        assertTrue(lastList.size() == 2);
+    }
+
+    @Test
+    public void testGetByAge() {
+        ArrayList<Person> ageList = h.getByAttribute("age", "33");
+        assertEquals(ageList.get(0), unsortedList.get(2));
+        assertTrue(ageList.size() == 1);
+    }
+
+    @Test
+    public void testGetByPhone(){
+        ArrayList<Person> phoneList = h.getByAttribute("phone", "23232323");
+        assertEquals(phoneList.get(0), unsortedList.get(3));
+        assertTrue(phoneList.size() == 1);
+    }
+
+    @Test
+    public void testGetByStreet(){
+        ArrayList<Person> streetList = h.getByAttribute("street", "Dragørvej");
+        assertEquals(streetList.get(0), unsortedList.get(2));
+        assertTrue(streetList.size() == 1);
+    }
+    @Test
+    public void testGetByCity() {
+        ArrayList<Person> cityList = h.getByAttribute("city", "Glostrup");
+        assertEquals(cityList.get(0), unsortedList.get(0));
+        assertTrue(cityList.size() == 1);
+    }
+
+    @Test
+    public void testGetByWord(){
+        ArrayList<Person> wordList = h.getByAttribute("word", "Cool");
+        assertEquals(wordList.get(0), unsortedList.get(1));
+        assertTrue(wordList.size() == 1);
+    }
+
+    @Test
+    public void testGetByAmount() {
+        ArrayList<Person> amountList = h.getByAttribute("amount", "10000");
+        assertEquals(amountList.get(0), unsortedList.get(3));
+        assertTrue(amountList.size() == 1);
+    }
 
     @Test
     public void testGetAllPersons() {
@@ -179,12 +229,5 @@ public class HandlerimplTest {
         assertEquals(sortedFirstList.size(), sortedTestList.size());
 
     };
-
-
-    @Test
-    public String testReadFile() {
-        return null;
-    };
-
-
+    
 }
