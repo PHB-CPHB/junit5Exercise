@@ -23,5 +23,5 @@ public interface Handler {
 
     public ArrayList<Person> sortByFirstName(ArrayList<Person> arr);
     
-    public int countCharsInFile();
+    public int countUnicodedCharsInFile();
 }

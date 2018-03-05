@@ -256,7 +256,7 @@ public class Handlerimpl implements Handler {
     }
 
     @Override
-    public int countCharsInFile() {
+    public int countUnicodedCharsInFile() {
         int chars = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));

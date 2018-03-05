@@ -265,10 +265,10 @@ class HandlerimplTest {
     
     @Test
     @DisplayName("Test on size of dataset in chars")
-    void testCountCharsInFile(){
+    void testCountUnicodedCharsInFile(){
         assertAll("Check resources", () -> {
             assertNotNull(h);
-            assertEquals(116, h.countCharsInFile());
+            assertEquals(116, h.countUnicodedCharsInFile());
         });
     }
 }
