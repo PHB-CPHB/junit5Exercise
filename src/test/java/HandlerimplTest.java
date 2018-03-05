@@ -262,5 +262,13 @@ class HandlerimplTest {
         assertEquals(sortedFirstList.size(), sortedTestList.size());
 
     };
-
+    
+    @Test
+    @DisplayName("Test on size of dataset in chars")
+    void testCountCharsInFile(){
+        assertAll("Check resources", () -> {
+            assertNotNull(h);
+            assertEquals(116, h.countCharsInFile());
+        });
+    }
 }

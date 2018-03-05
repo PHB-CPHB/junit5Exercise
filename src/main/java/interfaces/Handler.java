@@ -22,4 +22,6 @@ public interface Handler {
     public ArrayList<Person> sortByAmount(ArrayList<Person> arr);
 
     public ArrayList<Person> sortByFirstName(ArrayList<Person> arr);
+    
+    public int countCharsInFile();
 }

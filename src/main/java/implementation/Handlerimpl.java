@@ -3,8 +3,9 @@ package implementation;
 import entities.Person;
 import interfaces.Handler;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Handlerimpl implements Handler {
 
@@ -254,4 +255,20 @@ public class Handlerimpl implements Handler {
         return arr;
     }
 
+    @Override
+    public int countCharsInFile() {
+        int chars = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            while((br.readLine() != null)){
+                chars += br.readLine().length();
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Handlerimpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return chars;
+    }
 }
