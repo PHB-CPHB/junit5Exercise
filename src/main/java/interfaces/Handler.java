@@ -5,17 +5,17 @@ import java.util.ArrayList;
 
 public interface Handler {
 
-    public Person getPerson(Person person);
+    public Person getPerson(Person person, ArrayList<Person> persons);
 
-    public void updatePerson(Person person, Person updatedPerson);
+    public ArrayList<Person> updatePerson(Person person, Person updatedPerson, String path);
 
-    public void removePerson(Person person);
+    public ArrayList<Person> removePerson(Person person, String path);
 
-    public void createPerson(Person person);
+    public ArrayList<Person> createPerson(Person person, String path);
 
-    public ArrayList<Person> getByAttribute(String attribute, String value);
+    public ArrayList<Person> getByAttribute(String attribute, String value, String path);
 
-    public ArrayList<Person> getAllPersons();
+    public ArrayList<Person> getAllPersons(String path);
 
     public ArrayList<Person> sortByAge(ArrayList<Person> arr);
 
@@ -23,5 +23,5 @@ public interface Handler {
 
     public ArrayList<Person> sortByFirstName(ArrayList<Person> arr);
     
-    public int countUnicodedCharsInFile();
+    public int countUnicodedCharsInFile(String path);
 }

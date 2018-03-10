@@ -9,17 +9,9 @@ import java.util.logging.Logger;
 
 public class Handlerimpl implements Handler {
 
-    private ArrayList<Person> persons;
-    private String path;
 
-    public Handlerimpl(String path){
-        this.path = path;
-        persons = getAllPersons();
-    }
-
-    public Person getPerson(Person person) {
+    public Person getPerson(Person person, ArrayList<Person> persons) {
         Person tmpPerson = null;
-        persons = getAllPersons();
         for (Person currentPerson: persons) {
             if(currentPerson.toString().equals(person.toString())){
                 tmpPerson = person;
@@ -28,14 +20,15 @@ public class Handlerimpl implements Handler {
         return tmpPerson;
     }
 
-    public void updatePerson(Person person, Person updatedPerson) {
+    public ArrayList<Person> updatePerson(Person person, Person updatedPerson, String path) {
+        ArrayList<Person> errorList = new ArrayList<>();
         try {
 
             File inFile = new File(path);
 
             if (!inFile.isFile()) {
                 System.out.println("Parameter is not an existing file");
-                return;
+                return errorList;
             }
 
             //Construct the new file that will later be renamed to the original filename.
@@ -65,23 +58,22 @@ public class Handlerimpl implements Handler {
             //Delete the original file
             if (!inFile.delete()) {
                 System.out.println("Could not delete file");
-                return;
+                return errorList;
             }
 
             //Rename the new file to the filename the original file had.
             if (!tempFile.renameTo(inFile))
                 System.out.println("Could not rename file");
 
-        }
-        catch (FileNotFoundException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
+        } finally {
+            return getAllPersons(path);
         }
     }
 
-    public void removePerson(Person person) {
+    public ArrayList<Person> removePerson(Person person, String path) {
+        ArrayList<Person> errorList = new ArrayList<>();
         BufferedReader br = null;
         PrintWriter pw = null;
         try {
@@ -90,7 +82,7 @@ public class Handlerimpl implements Handler {
 
             if (!inFile.isFile()) {
                 System.out.println("Parameter is not an existing file");
-                return;
+                return errorList;
             }
 
             //Construct the new file that will later be renamed to the original filename.
@@ -117,23 +109,21 @@ public class Handlerimpl implements Handler {
             //Delete the original file
             if (!inFile.delete()) {
                 System.out.println("Could not delete file");
-                return;
+                return errorList;
             }
 
             //Rename the new file to the filename the original file had.
             if (!tempFile.renameTo(inFile))
                 System.out.println("Could not rename file");
 
-        }
-        catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            return getAllPersons(path);
         }
     }
 
-    public void createPerson(Person person) {
+    public ArrayList<Person> createPerson(Person person, String path) {
         File file = new File(path);
         RandomAccessFile raf = null;
         try{
@@ -142,15 +132,16 @@ public class Handlerimpl implements Handler {
             raf.write(person.toString().getBytes());
             raf.writeBytes(System.getProperty("line.separator"));
             raf.close();
-        } catch (FileNotFoundException e) {
+        }  catch (IOException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } finally {
+            return getAllPersons(path);
         }
     }
 
-    public ArrayList<Person> getByAttribute(String attribute, String value) {
+    public ArrayList<Person> getByAttribute(String attribute, String value, String path) {
         ArrayList<Person> attributeList = new ArrayList<>();
+        ArrayList<Person> persons = getAllPersons(path);
         switch (attribute){
             case "first":
                 for (Person person: persons) {
@@ -213,7 +204,7 @@ public class Handlerimpl implements Handler {
 
     }
 
-    public ArrayList<Person> getAllPersons() {
+    public ArrayList<Person> getAllPersons(String path) {
         File file = new File(path);
         FileInputStream fis = null;
         ArrayList<Person> persons = new ArrayList();
@@ -256,7 +247,7 @@ public class Handlerimpl implements Handler {
     }
 
     @Override
-    public int countUnicodedCharsInFile() {
+    public int countUnicodedCharsInFile(String path) {
         int chars = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));

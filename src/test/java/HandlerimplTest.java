@@ -1,10 +1,19 @@
 import entities.Person;
 import implementation.Handlerimpl;
-import org.junit.jupiter.api.*;
-
 import java.io.*;
 import java.util.ArrayList;
+
+// Junit5
+import org.junit.jupiter.api.*;
+
+
+
 import static org.junit.jupiter.api.Assertions.*;
+
+// Hamcrest
+import static org.hamcrest.core.IsEqual.*;
+import static org.hamcrest.Matcher.*;
+import static org.hamcrest.MatcherAssert.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class HandlerimplTest {
@@ -29,7 +38,7 @@ class HandlerimplTest {
 
     @BeforeEach
     void setUp(){
-        h = new Handlerimpl(path);
+        h = new Handlerimpl();
         unsortedList = new ArrayList<>();
         Person pp1 = new Person("Cirkeline", "Madsen", 60 , "28282828", "Glostrupvej", "Glostrup", "Looser", 30000);
         Person pp2 = new Person("Torben", "Hansen", 89 , "30303030", "Ballerupvej", "Ballerup", "Cool", 40000);
@@ -50,47 +59,33 @@ class HandlerimplTest {
                 pw.println((String) line);
                 pw.flush();
             }
+            pw.close();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            pw.close();
         }
     }
 
     @Test
     @DisplayName("Get specific person")
     void testGetPerson() {
-        assertEquals(h.getPerson(unsortedList.get(0)), unsortedList.get(0));
+        assertEquals(h.getPerson(unsortedList.get(0), unsortedList), unsortedList.get(0));
     };
 
     @Test
     @DisplayName("Updates a person")
     void testUpdatePerson() {
-        Person initailPerson = new Person("Test", "testing", 50 , "70070070", "Glostrupvej", "Glostrup", "Looser", 80000);
         Person updatedPerson = new Person("Mike", "Timsen", 40 , "60606060", "Glostrupvej", "Glostrup", "Looser", 30000);
-        h.createPerson(initailPerson);
-        h.updatePerson(initailPerson, updatedPerson);
-        assertEquals(updatedPerson, h.getPerson(updatedPerson));
-        assertTrue(!h.getAllPersons().contains(initailPerson));
+        ArrayList<Person> testList = h.updatePerson(unsortedList.get(0), updatedPerson, path);
+        assertEquals(updatedPerson, testList.get(0));
+        assertTrue(testList.contains(updatedPerson));
     };
 
     @Test
     @DisplayName("Removes a person")
     void testRemovePerson() {
-        Person person = new Person(
-                "Test",
-                "Testing",
-                26,
-                "818181818",
-                "fuck street",
-                "fuck din mor",
-                "hejsa",
-                10234
-        );
-        h.createPerson(person);
-        h.removePerson(person);
-        assertTrue(h.getAllPersons().size()>0);
-        assertTrue(!h.getAllPersons().contains(person));
+        ArrayList<Person> testList = h.removePerson(unsortedList.get(0), path);
+        assertTrue(testList.size()>0);
+        assertTrue(!testList.contains(unsortedList.get(0)));
 
     };
 
@@ -107,23 +102,23 @@ class HandlerimplTest {
                 "hejsa",
                 10234
         );
-        h.createPerson(person);
-        assertEquals(person, h.getPerson(person));
+        ArrayList<Person> testList = h.createPerson(person, path);
+        assertEquals(person, testList.get(testList.size()-1));
 
     };
 
     @Test
     @DisplayName("Find all persons in the file with colume first with a specified value")
     void testGetByFirst() {
-        ArrayList<Person> firstList = h.getByAttribute("first", "Cirkeline");
-        assertEquals(firstList.get(0).toString(), unsortedList.get(0).toString());
+        ArrayList<Person> firstList = h.getByAttribute("first", "Cirkeline", path);
+        assertEquals(firstList.get(0), unsortedList.get(0));
         assertTrue(firstList.size() == 1);
     };
 
     @Test
     @DisplayName("Find all persons in the file with colume last with a specified value")
     void testGetByLast() {
-        ArrayList<Person> lastList = h.getByAttribute("last", "Madsen");
+        ArrayList<Person> lastList = h.getByAttribute("last", "Madsen", path);
         assertEquals(lastList.get(0), unsortedList.get(0));
         assertEquals(lastList.get(1), unsortedList.get(3));
         assertTrue(lastList.size() == 2);
@@ -132,7 +127,7 @@ class HandlerimplTest {
     @Test
     @DisplayName("Find all persons in the file with colume age with a specified value")
     void testGetByAge() {
-        ArrayList<Person> ageList = h.getByAttribute("age", "33");
+        ArrayList<Person> ageList = h.getByAttribute("age", "33", path);
         assertEquals(ageList.get(0), unsortedList.get(2));
         assertTrue(ageList.size() == 1);
     }
@@ -140,7 +135,7 @@ class HandlerimplTest {
     @Test
     @DisplayName("Find all persons in the file with colume phone with a specified value")
     void testGetByPhone(){
-        ArrayList<Person> phoneList = h.getByAttribute("phone", "23232323");
+        ArrayList<Person> phoneList = h.getByAttribute("phone", "23232323", path);
         assertEquals(phoneList.get(0), unsortedList.get(3));
         assertTrue(phoneList.size() == 1);
     }
@@ -148,7 +143,7 @@ class HandlerimplTest {
     @Test
     @DisplayName("Find all persons in the file with colume street with a specified value")
     void testGetByStreet(){
-        ArrayList<Person> streetList = h.getByAttribute("street", "Dragørvej");
+        ArrayList<Person> streetList = h.getByAttribute("street", "Dragørvej", path);
         assertEquals(streetList.get(0), unsortedList.get(2));
         assertTrue(streetList.size() == 1);
     }
@@ -156,7 +151,7 @@ class HandlerimplTest {
     @Test
     @DisplayName("Find all persons in the file with colume city with a specified value")
     void testGetByCity() {
-        ArrayList<Person> cityList = h.getByAttribute("city", "Glostrup");
+        ArrayList<Person> cityList = h.getByAttribute("city", "Glostrup", path);
         assertEquals(cityList.get(0), unsortedList.get(0));
         assertTrue(cityList.size() == 1);
     }
@@ -164,7 +159,7 @@ class HandlerimplTest {
     @Test
     @DisplayName("Find all persons in the file with colume word with a specified value")
     void testGetByWord(){
-        ArrayList<Person> wordList = h.getByAttribute("word", "Cool");
+        ArrayList<Person> wordList = h.getByAttribute("word", "Cool", path);
         assertEquals(wordList.get(0), unsortedList.get(1));
         assertTrue(wordList.size() == 1);
     }
@@ -172,7 +167,7 @@ class HandlerimplTest {
     @Test
     @DisplayName("Find all persons in the file with colume amount with a specified value")
     void testGetByAmount() {
-        ArrayList<Person> amountList = h.getByAttribute("amount", "10000");
+        ArrayList<Person> amountList = h.getByAttribute("amount", "10000", path);
         assertEquals(amountList.get(0), unsortedList.get(3));
         assertTrue(amountList.size() == 1);
     }
@@ -180,7 +175,7 @@ class HandlerimplTest {
     @Test
     @DisplayName("Collects all the persons in the file")
     void testGetAllPersons() {
-        ArrayList<Person> data = h.getAllPersons();
+        ArrayList<Person> data = h.getAllPersons(path);
         assertAll("Persons",
                 () -> {
                     assertNotNull(data);
@@ -268,7 +263,31 @@ class HandlerimplTest {
     void testCountUnicodedCharsInFile(){
         assertAll("Check resources", () -> {
             assertNotNull(h);
-            assertEquals(116, h.countUnicodedCharsInFile());
+            assertEquals(116, h.countUnicodedCharsInFile(path));
         });
     }
+
+    @Test
+    void testHamcrestOne(){
+        ArrayList<Person> sortedAmountList = new ArrayList<>();
+        Person p1 = new Person("Albert", "Madsen", 10 , "23232323", "Københavnvej", "København", "Noob", 10000);
+        Person p2 = new Person("Bertil", "Olsen", 33 , "25252525", "Dragørvej", "Dragør", "Taber", 20000);
+        Person p3 = new Person("Cirkeline", "Madsen", 60 , "28282828", "Glostrupvej", "Glostrup", "Looser", 30000);
+        Person p4 = new Person("Torben", "Hansen", 89 , "30303030", "Ballerupvej", "Ballerup", "Cool", 40000);
+        sortedAmountList.add(p1);
+        sortedAmountList.add(p2);
+        sortedAmountList.add(p3);
+        sortedAmountList.add(p4);
+
+        ArrayList<Person> sortedTestList = h.sortByAmount(unsortedList);
+
+        
+
+    }
+
+    @Test
+    void testHamcrestTwo(){
+
+    }
+
 }
