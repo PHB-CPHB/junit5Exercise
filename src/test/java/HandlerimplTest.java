@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 // Junit5
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.*;
 
 
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Hamcrest
 import static org.hamcrest.core.IsEqual.*;
-import static org.hamcrest.Matcher.*;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -269,6 +270,7 @@ class HandlerimplTest {
 
     @Test
     void testHamcrestOne(){
+        // using Hamcrest test if our method that sorts by amount works as intended
         ArrayList<Person> sortedAmountList = new ArrayList<>();
         Person p1 = new Person("Albert", "Madsen", 10 , "23232323", "Københavnvej", "København", "Noob", 10000);
         Person p2 = new Person("Bertil", "Olsen", 33 , "25252525", "Dragørvej", "Dragør", "Taber", 20000);
@@ -281,13 +283,16 @@ class HandlerimplTest {
 
         ArrayList<Person> sortedTestList = h.sortByAmount(unsortedList);
 
-        
+        assertThat(sortedTestList, is(equalTo(sortedAmountList)));
 
     }
 
     @Test
     void testHamcrestTwo(){
+        // using Hamcrest to test if the csv file data is equal to the test data we have. and that the method getAllPersons work as intended
 
+        assertThat(h.getAllPersons(path), is(equalTo(unsortedList)));
+        assertThat(h.getAllPersons(path).size(), is(unsortedList.size()));
     }
 
 }
